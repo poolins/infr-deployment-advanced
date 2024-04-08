@@ -13,7 +13,7 @@
       add_host:
         name: weather_bot_server
         groups: nodes
-        ansible_host: "{{ trfrm.outputs.instance_ip_addr }}"
+        ansible_host: "{{ trfrm.outputs.instance_ip_addr.value }}"
         ansible_ssh_private_key_file: ~/.ssh/id_ed25519
         ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
         
