@@ -43,7 +43,7 @@ resource "openstack_networking_secgroup_rule_v2" "ssh_rule" {
 }
 
 # Security group rule for http
-resource "openstack_networking_secgroup_rule_v2" "ssh_rule" {
+resource "openstack_networking_secgroup_rule_v2" "http_rule" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
@@ -54,7 +54,7 @@ resource "openstack_networking_secgroup_rule_v2" "ssh_rule" {
 }
 
 # Security group rule for https
-resource "openstack_networking_secgroup_rule_v2" "ssh_rule" {
+resource "openstack_networking_secgroup_rule_v2" "https_rule" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
