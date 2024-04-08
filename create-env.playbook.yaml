@@ -41,7 +41,7 @@
       - name: Copy artifacts
         copy:
           src: "{{ jar_path }}"
-          dest: /home/ubuntu
+          dest: /home/ubuntu/target
         
       - name: Configure Java app service
         copy: 
