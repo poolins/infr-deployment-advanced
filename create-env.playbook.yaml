@@ -1,0 +1,44 @@
+- name: run on local
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: Run terraform
+      terraform:
+        project_path: "./tf"
+        force_init: yes
+        state: present
+      register: trfrm
+
+    - name: Add instance host
+      add_host:
+        name: weather_bot_server
+        groups: nodes
+        ansible_host: "{{ trfrm.outputs.instance_ip_addr }}"
+        ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+        
+- hosts: weather_bot_server
+  tasks:
+    - name: Update apt and install jdk17
+      apt:
+        update_cache: yes
+        name: openjdk-17-jdk
+        state: present
+
+    - name: Copy artifacts
+      copy:
+        src: "{{ jar_path }}"
+        dest: /home/ubuntu
+        
+    - name: Configure Java app service
+      copy: 
+        src: "{{ service_path }}"
+        dest: /etc/systemd/system
+        mode: '0777'
+    
+    - name: Start Java app service
+      systemd:
+        daemon_reload: true
+        name: weather-bot
+        state: restarted
+      
