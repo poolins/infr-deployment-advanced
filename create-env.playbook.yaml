@@ -36,6 +36,11 @@
           update_cache: yes
         become: yes
         
+      - name: Upgrade packages
+        apt:
+          upgrade: yes
+        become: yes
+        
       - name: Install jdk17
         apt:
           name: openjdk-17-jdk-headless
