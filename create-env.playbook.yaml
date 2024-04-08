@@ -28,32 +28,38 @@
         host: "{{ trfrm.outputs.instance_ip_addr.value }}"
         port: 22
       
-- hosts: weather_bot_server
-  name: Deploy app
-  tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
+- block:
+    - hosts: weather_bot_server
+      name: Deploy app
+      tasks:
+        - name: Update apt cache
+          apt:
+            update_cache: yes
         
-    - name: Install jdk17
-      apt:
-        name: openjdk-17-jdk
-        state: present
+        - name: Install jdk17
+          apt:
+            name: openjdk-17-jdk
+            state: present
 
-    - name: Copy artifacts
-      copy:
-        src: "{{ jar_path }}"
-        dest: /home/ubuntu
+        - name: Copy artifacts
+          copy:
+            src: "{{ jar_path }}"
+            dest: /home/ubuntu
         
-    - name: Configure Java app service
-      copy: 
-        src: "{{ service_path }}"
-        dest: /etc/systemd/system
-        mode: '0777'
+        - name: Configure Java app service
+          copy: 
+            src: "{{ service_path }}"
+            dest: /etc/systemd/system
+            mode: '0777'
     
-    - name: Start Java app service
-      systemd:
-        daemon_reload: true
-        name: weather-bot
-        state: restarted
-      
+        - name: Start Java app service
+          systemd:
+            daemon_reload: true
+            name: weather-bot
+            state: restarted
+     
+  rescue:
+    - name: Clean up resources because of an error
+      terraform:
+        project_path: "./tf"
+        state: absent 
