@@ -31,9 +31,12 @@
 - hosts: weather_bot_server
   name: Deploy app
   tasks:
-    - name: Update apt and install jdk17
+    - name: Update apt cache
       apt:
         update_cache: yes
+        
+    - name: Install jdk17
+      apt:
         name: openjdk-17-jdk
         state: present
 
