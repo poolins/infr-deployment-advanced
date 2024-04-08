@@ -38,7 +38,7 @@
         
       - name: Install jdk17
         apt:
-          name: openjdk-17-jdk
+          name: openjdk-17-jdk-headless
           state: present
         become: yes
 
