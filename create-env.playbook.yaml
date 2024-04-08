@@ -30,15 +30,11 @@
 - name: Deploy app
   hosts: weather_bot_server
   tasks:
-    - block:
-      - name: Update apt cache
+    - block:   
+      - name: Update apt cache and install jdk17
         apt:
           update_cache: yes
-        become: yes
-        
-      - name: Install jdk21
-        apt:
-          name: openjdk-21-jdk
+          name: openjdk-17-jdk-headless
           state: present
         become: yes
 
