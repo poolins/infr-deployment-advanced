@@ -34,11 +34,13 @@
       - name: Update apt cache
         apt:
           update_cache: yes
+        become: yes
         
       - name: Install jdk17
         apt:
           name: openjdk-17-jdk
           state: present
+        become: yes
 
       - name: Copy artifacts
         copy:
@@ -56,6 +58,7 @@
           daemon_reload: true
           name: weather-bot
           state: restarted
+        become: yes
      
       rescue:
        - name: Clean up resources because of an error
