@@ -66,4 +66,4 @@
          terraform:
            project_path: "./tf"
            state: absent 
-      delegate_to: 127.0.0.1
+         delegate_to: 127.0.0.1
